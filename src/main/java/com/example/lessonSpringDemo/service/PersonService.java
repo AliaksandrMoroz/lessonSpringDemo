@@ -2,20 +2,24 @@ package com.example.lessonSpringDemo.service;
 
 import com.example.lessonSpringDemo.entity.Person;
 import com.example.lessonSpringDemo.repository.PersonRepo;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
+@Data
 @Service
 @RequiredArgsConstructor
 public class PersonService implements IPersonService {
 
     private final PersonRepo personRepo;
 
+
     @Override
+    @Transactional(readOnly = true)
     public List<Person> getAll() {
         return personRepo.findAll();
     }

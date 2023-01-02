@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1563877765929-6
+      author: alexFrost
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: person_id
+            baseTableName: address
+            constraintName: FK_person
+            deferrable: false
+            initiallyDeferred: false
+            referencedColumnNames: id
+            referencedTableName: persons

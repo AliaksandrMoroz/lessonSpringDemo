@@ -3,9 +3,14 @@ package com.example.lessonSpringDemo.contoller;
 
 import com.example.lessonSpringDemo.dto.PersonEmailDTO;
 import com.example.lessonSpringDemo.dto.PersonNameLastnameDTO;
+import com.example.lessonSpringDemo.dto.PersonResponseDTO;
 import com.example.lessonSpringDemo.entity.Person;
 import com.example.lessonSpringDemo.mapper.PersonMapper;
+import com.example.lessonSpringDemo.mapper.PersonMapperMapStruct;
 import com.example.lessonSpringDemo.service.PersonService;
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +25,14 @@ public class PersonController {
     private final PersonService personService;
 
     private final PersonMapper personMapper;
+    private final PersonMapperMapStruct personMapperMapStruct;
 
     @GetMapping
-    public ResponseEntity<List<Person>> getAllPersons(){
-        return ResponseEntity.ok(personService.getAll());
+    @Operation(
+            description = "Получение списка пользователей"
+    )
+    public ResponseEntity<List<PersonResponseDTO>> getAllPersons(){
+        return ResponseEntity.ok(personMapperMapStruct.toPersonResponseDTOList(personService.getAll()));
     }
 
     @PostMapping
