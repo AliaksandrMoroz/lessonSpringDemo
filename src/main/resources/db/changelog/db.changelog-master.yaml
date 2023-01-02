@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changeset/createTable/addPersonTable.yaml
+  - include:
+      file: db/changeset/createTable/addAddressTable.yaml
+  - include:
+      file: db/changeset/createTable/sql.sql
+  - include:
+      file: db/changeset/updateTable/updateFK.yaml
