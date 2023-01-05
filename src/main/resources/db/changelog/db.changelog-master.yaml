@@ -1,9 +1,13 @@
 databaseChangeLog:
   - include:
-      file: db/changeset/createTable/addPersonTable.yaml
+      file: db/changeset/createTable/createPersonTable.sql
   - include:
-      file: db/changeset/createTable/addAddressTable.yaml
+      file: db/changeset/createTable/createAddressTable.sql
   - include:
-      file: db/changeset/createTable/sql.sql
+      file: db/changeset/insertValue/InsertPerson.sql
   - include:
-      file: db/changeset/updateTable/updateFK.yaml
+      file: db/changeset/insertValue/InsertAddress.sql
+  - include:
+      file: db/changeset/insertValue/InsertAddress_v2.sql
+  - include:
+      file: db/changeset/insertValue/InsertAddress_v3.sql

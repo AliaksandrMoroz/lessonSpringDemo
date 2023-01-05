@@ -1,5 +1,6 @@
 package com.example.lessonSpringDemo.service;
 
+import com.example.lessonSpringDemo.dto.RequestEmailDTO;
 import com.example.lessonSpringDemo.entity.Person;
 import com.example.lessonSpringDemo.repository.PersonRepo;
 import lombok.Data;
@@ -25,23 +26,32 @@ public class PersonService implements IPersonService {
     }
 
     @Override
-    public void addPerson(Person person) {
+    public Person addPerson(Person person) {
         personRepo.save(person);
+        return person;
     }
 
     @Override
-    public Person getPersonByID(Integer id) {
-        return personRepo.findById(id).get();
+    public Person getPersonByID(Long id) {
+        return personRepo.findById(id).orElseThrow(RuntimeException::new);
     }
-
+    @Override
     public List<Person> getPersonsByName(String name) {
         return personRepo.findByName(name);
     }
 
+    @Override
     @Transactional
-    public Person updateEmailById(int id, String email) {
-        Person byId = personRepo.findById(id).get();
-        byId.setEmail(email);
+    public void deletePersonById(Long id) {
+        Person byId = personRepo.findById(id).orElseThrow(RuntimeException::new);
+        personRepo.delete(byId);
+    }
+
+    @Transactional
+    @Override
+    public Person updateEmailById(Long id, RequestEmailDTO email) {
+        Person byId = personRepo.findById(id).orElseThrow(RuntimeException::new);
+        byId.setEmail(email.getEmail());
         personRepo.save(byId);
         return byId;
     }

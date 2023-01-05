@@ -1,14 +1,12 @@
 package com.example.lessonSpringDemo.repository;
 
-import com.example.lessonSpringDemo.entity.Person;
+import com.example.lessonSpringDemo.entity.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
-
 @Repository
-public interface PersonRepo extends JpaRepository<Person,Long> {
-    List<Person> findByName(String name);
+public interface AddressRepo extends JpaRepository<Address, Long> {
 
+    List<Address> findByCity (String city);
 }

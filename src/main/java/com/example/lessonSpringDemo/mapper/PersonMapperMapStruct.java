@@ -1,9 +1,12 @@
 package com.example.lessonSpringDemo.mapper;
 
+import com.example.lessonSpringDemo.dto.PersonEmailDTO;
+import com.example.lessonSpringDemo.dto.PersonNameLastnameDTO;
+import com.example.lessonSpringDemo.dto.PersonRequestDTO;
 import com.example.lessonSpringDemo.dto.PersonResponseDTO;
 import com.example.lessonSpringDemo.entity.Person;
 
-import lombok.NoArgsConstructor;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
@@ -19,4 +22,15 @@ public interface PersonMapperMapStruct {
     })
     PersonResponseDTO toPersonResponseDTO(Person person);
     List<PersonResponseDTO> toPersonResponseDTOList(List<Person> personList);
+
+    List<PersonEmailDTO> toPersonEmailDTOList(List<Person> persons);
+
+    PersonEmailDTO toPersonEmailDTO(Person person);
+
+    PersonNameLastnameDTO toPersonNameLastnameDTO (Person person);
+
+    List<PersonNameLastnameDTO> toPersonNameLastnameDTOList(List<Person> persons);
+
+    Person toPerson(PersonRequestDTO personRequestDTO);
+
 }

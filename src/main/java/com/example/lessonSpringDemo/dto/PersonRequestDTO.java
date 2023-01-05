@@ -1,7 +1,6 @@
 package com.example.lessonSpringDemo.dto;
 
-import com.example.lessonSpringDemo.entity.Address;
-import jakarta.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,9 +12,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PersonResponseDTO {
-
-    private int id;
+public class PersonRequestDTO {
 
     private String name;
 

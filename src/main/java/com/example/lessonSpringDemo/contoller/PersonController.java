@@ -2,15 +2,14 @@ package com.example.lessonSpringDemo.contoller;
 
 
 import com.example.lessonSpringDemo.dto.PersonEmailDTO;
-import com.example.lessonSpringDemo.dto.PersonNameLastnameDTO;
+import com.example.lessonSpringDemo.dto.PersonRequestDTO;
 import com.example.lessonSpringDemo.dto.PersonResponseDTO;
+import com.example.lessonSpringDemo.dto.RequestEmailDTO;
 import com.example.lessonSpringDemo.entity.Person;
-import com.example.lessonSpringDemo.mapper.PersonMapper;
+import com.example.lessonSpringDemo.mapper.AddressMapper;
 import com.example.lessonSpringDemo.mapper.PersonMapperMapStruct;
-import com.example.lessonSpringDemo.service.PersonService;
+import com.example.lessonSpringDemo.service.IPersonService;
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +21,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersonController {
 
-    private final PersonService personService;
+    private final IPersonService personService;
 
-    private final PersonMapper personMapper;
     private final PersonMapperMapStruct personMapperMapStruct;
+
+    private final AddressMapper addressMapper;
 
     @GetMapping
     @Operation(
@@ -36,25 +36,33 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> addPerson(@RequestBody Person person){
-        personService.addPerson(person);
-        return ResponseEntity.ok(person);
+    public ResponseEntity<PersonResponseDTO> addPerson(@RequestBody PersonRequestDTO personDto){
+        Person person1 = personMapperMapStruct.toPerson(personDto);
+        person1.setAddressList(addressMapper.toAddressList(personDto.getAddressList()));
+        Person person = personService.addPerson(person1);
+        return ResponseEntity.ok(personMapperMapStruct.toPersonResponseDTO(person));
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<PersonNameLastnameDTO> getPersonNameAndLastNameById(@PathVariable Integer id){
-        PersonNameLastnameDTO personNameLastnameDTO = personMapper.toPersonNameLastnameDTO(personService.getPersonByID(id));
-        return ResponseEntity.ok(personNameLastnameDTO);
+    public ResponseEntity<PersonResponseDTO> getPersonNameAndLastNameById(@PathVariable Long id){
+        PersonResponseDTO personResponseDTO = personMapperMapStruct.toPersonResponseDTO(personService.getPersonByID(id));
+        return ResponseEntity.ok(personResponseDTO);
     }
 
-    @GetMapping(path = "/name/{name}")
+    @GetMapping(path = "name/{name}")
     public ResponseEntity<List<PersonEmailDTO>> getPersonsByName(@PathVariable String name){
-        return ResponseEntity.ok(personMapper.toPersonEmailDTOList(personService.getPersonsByName(name)));
+        return ResponseEntity.ok(personMapperMapStruct.toPersonEmailDTOList(personService.getPersonsByName(name)));
     }
 
-    @PatchMapping(path = "/{id}")
-    public ResponseEntity<Person> updatePersonById(@PathVariable int id, @RequestParam String email){
-        return ResponseEntity.ok(personService.updateEmailById(id, email));
+    @PatchMapping(path = "{id}")
+    public ResponseEntity<PersonResponseDTO> updatePersonById(@PathVariable Long id, @RequestBody RequestEmailDTO email){
+        return ResponseEntity.ok(personMapperMapStruct.toPersonResponseDTO(personService.updateEmailById(id, email)));
+    }
+
+    @DeleteMapping(path = "{id}")
+    public String deleteById(@PathVariable Long id){
+        personService.deletePersonById(id);
+        return "Successfully";
     }
 
 
